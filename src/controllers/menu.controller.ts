@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body, UsePipes, Put } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, UsePipes, Put, Delete } from '@nestjs/common';
 import { CreateMenuDto } from 'src/dtos/create-menu-dto';
 import { UpdateMenuDto } from 'src/dtos/update-menu-dto';
 import { JoiValidationPipe } from 'src/pipes/joi-validation-pipes';
@@ -28,5 +28,10 @@ export class MenuController {
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateMenuDto: UpdateMenuDto) {
     return await this.menuService.update(id, updateMenuDto);
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    return await this.menuService.delete(id);
   }
 }
