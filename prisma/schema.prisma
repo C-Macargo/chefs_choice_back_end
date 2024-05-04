@@ -8,31 +8,27 @@ datasource db {
 }
 
 model Menu {
-  id                  Int        @id @default(autoincrement())
-  plate_name          String     @unique
-  price               Int
-  image_url           String
-  description         String
-  created_at          DateTime   @default(now())
-  updated_at          DateTime   @updatedAt
-  timeOfDay           TimeOfDay
-  dietary_preference  DietaryPreference?
-  category            Category
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  description String?
+  isDay       Boolean  
+  products    Product[] 
 }
 
-enum TimeOfDay {
-  DAY
-  NIGHT
+model Product {
+  id           Int        @id @default(autoincrement())
+  name         String
+  description  String?
+  price        Float
+  image_url    String?  
+  menu         Menu?      @relation(fields: [menuId], references: [id], onDelete: SetNull)
+  menuId       Int?
+  categories   Category[] @relation("ProductCategories")
 }
 
-enum DietaryPreference {
-  VEGAN
-  VEGETARIAN
-  CONTAINS_DAIRY
-}
 
-enum Category {
-  ENTREE
-  MAIN_DISH
-  DESSERT
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String
+  products    Product[] @relation("ProductCategories")
 }
