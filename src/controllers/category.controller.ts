@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { CategoryService } from 'src/services/category.service';
 
 @Controller('category')
@@ -8,5 +8,10 @@ export class CategoryController {
   @Get()
   async findAll() {
     return await this.categoryService.findAll();
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return await this.categoryService.findOne(id);
   }
 }
