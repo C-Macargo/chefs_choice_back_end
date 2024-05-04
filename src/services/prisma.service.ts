@@ -20,4 +20,7 @@ export class PrismaService {
   get menu() {
     return this.prismaClient.menu;
   }
+  get category() {
+    return this.prismaClient.category;
+  }
 }
