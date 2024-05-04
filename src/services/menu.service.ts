@@ -22,4 +22,12 @@ export class MenuService {
       data,
     });
   }
+
+  async update(id: string, data: Prisma.MenuUpdateInput): Promise<Menu> {
+    const menuId = parseInt(id, 10);
+    return this.prisma.menu.update({
+      where: { id: menuId },
+      data,
+    });
+  }
 }

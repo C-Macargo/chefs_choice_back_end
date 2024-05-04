@@ -1,5 +1,6 @@
-import { Controller, Get, Param, Post, Body, UsePipes } from '@nestjs/common';
-import { CreateMenuDto } from 'src/dtos/create-menu.dto';
+import { Controller, Get, Param, Post, Body, UsePipes, Put } from '@nestjs/common';
+import { CreateMenuDto } from 'src/dtos/create-menu-dto';
+import { UpdateMenuDto } from 'src/dtos/update-menu-dto';
 import { JoiValidationPipe } from 'src/pipes/joi-validation-pipes';
 import { createMenuSchema } from 'src/schemas/create-menu-schema';
 import { MenuService } from 'src/services/menu.service';
@@ -22,5 +23,10 @@ export class MenuController {
   @UsePipes(new JoiValidationPipe(createMenuSchema))
   async create(@Body() createMenuDto: CreateMenuDto) {
     return await this.menuService.create(createMenuDto);
+  }
+
+  @Put(':id')
+  async update(@Param('id') id: string, @Body() updateMenuDto: UpdateMenuDto) {
+    return await this.menuService.update(id, updateMenuDto);
   }
 }
