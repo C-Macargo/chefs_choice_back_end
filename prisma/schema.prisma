@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Menu {
+  id                  Int        @id @default(autoincrement())
+  plate_name          String     @unique
+  price               Int
+  image_url           String
+  description         String
+  created_at          DateTime   @default(now())
+  updated_at          DateTime   @updatedAt
+  timeOfDay           TimeOfDay
+  dietary_preference  DietaryPreference?
+  category            Category
+}
+
+enum TimeOfDay {
+  DAY
+  NIGHT
+}
+
+enum DietaryPreference {
+  VEGAN
+  VEGETARIAN
+  CONTAINS_DAIRY
+}
+
+enum Category {
+  ENTREE
+  MAIN_DISH
+  DESSERT
+}
