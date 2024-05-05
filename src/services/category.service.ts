@@ -36,4 +36,11 @@ export class CategoryService {
       data,
     });
   }
+
+  async delete(id: string): Promise<Category> {
+    const category = await this.findOne(id); //
+    return this.prisma.category.delete({
+      where: { id: category.id },
+    });
+  }
 }

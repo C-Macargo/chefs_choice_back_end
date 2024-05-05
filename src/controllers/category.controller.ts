@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, UsePipes } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UsePipes } from '@nestjs/common';
 import { CreateCategoryDto } from 'src/dtos/create-category-dto';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { UpdateCategoryDto } from 'src/dtos/update-category-dto';
@@ -29,5 +29,10 @@ export class CategoryController {
   @Put(':id')
   async update(@Param('id') id: string, @Body() UpdateCategoryDto: UpdateCategoryDto) {
     return await this.categoryService.update(id, UpdateCategoryDto);
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    return await this.categoryService.delete(id);
   }
 }
