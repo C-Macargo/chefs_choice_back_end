@@ -43,4 +43,21 @@ export class CategoryService {
       where: { id: category.id },
     });
   }
+
+  async findCategoryWithProducts(id: string): Promise<Category> {
+    const categoryId = parseInt(id, 10);
+
+    const category = await this.prisma.category.findUnique({
+      where: { id: categoryId },
+      include: {
+        products: true,
+      },
+    });
+
+    if (!category) {
+      throw new NotFoundException(`Category with ID ${categoryId} not found`);
+    }
+
+    return category;
+  }
 }

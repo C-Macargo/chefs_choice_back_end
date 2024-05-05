@@ -20,6 +20,11 @@ export class CategoryController {
     return await this.categoryService.findOne(id);
   }
 
+  @Get(':id/products')
+  async findProductsByCategoryId(@Param('id') id: string) {
+    return await this.categoryService.findCategoryWithProducts(id);
+  }
+
   @Post()
   @UsePipes(new JoiValidationPipe(createCategorySchema))
   async create(@Body() createCategoryDto: CreateCategoryDto) {
