@@ -28,4 +28,12 @@ export class CategoryService {
       data,
     });
   }
+
+  async update(id: string, data: Prisma.CategoryUpdateInput): Promise<Category> {
+    const category = await this.findOne(id);
+    return this.prisma.category.update({
+      where: { id: category.id },
+      data,
+    });
+  }
 }
