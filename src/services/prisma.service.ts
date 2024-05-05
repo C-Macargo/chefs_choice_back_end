@@ -23,4 +23,7 @@ export class PrismaService {
   get category() {
     return this.prismaClient.category;
   }
+  get product() {
+    return this.prismaClient.product;
+  }
 }
