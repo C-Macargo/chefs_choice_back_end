@@ -23,6 +23,18 @@ export class MenuService {
     return menu;
   }
 
+  async findCurrentMenu() {
+    const currentHour = new Date().getHours();
+    const isDay = currentHour >= 8 && currentHour < 18;
+    const currentMenu = await this.prisma.menu.findFirst({
+      where: { isDay: isDay },
+    });
+    if (!currentMenu) {
+      throw new Error(`No menu available for ${isDay ? 'daytime' : 'nighttime'}.`);
+    }
+    return currentMenu;
+  }
+
   async create(data: Prisma.MenuCreateInput): Promise<Menu> {
     return this.prisma.menu.create({
       data,

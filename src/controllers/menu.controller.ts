@@ -14,6 +14,11 @@ export class MenuController {
     return await this.menuService.findAll();
   }
 
+  @Get('/now')
+  async findCurrentMenu() {
+    return await this.menuService.findCurrentMenu();
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.menuService.findOne(id);
