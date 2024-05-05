@@ -71,4 +71,11 @@ export class ProductService {
       },
     });
   }
+
+  async delete(id: string): Promise<Product> {
+    const menu = await this.findOne(id);
+    return this.prisma.product.delete({
+      where: { id: menu.id },
+    });
+  }
 }
