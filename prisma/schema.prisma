@@ -16,19 +16,19 @@ model Menu {
 }
 
 model Product {
-  id           Int        @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   name         String
   description  String?
   price        Float
   image_url    String?  
-  menu         Menu?      @relation(fields: [menuId], references: [id], onDelete: SetNull)
+  menu         Menu?     @relation(fields: [menuId], references: [id], onDelete: SetNull)
   menuId       Int?
-  categories   Category[] @relation("ProductCategories")
+  category     Category  @relation(fields: [categoryId], references: [id])
+  categoryId   Int
 }
 
-
 model Category {
-  id          Int       @id @default(autoincrement())
-  name        String
-  products    Product[] @relation("ProductCategories")
+  id       Int       @id @default(autoincrement())
+  name     String
+  products Product[]
 }
