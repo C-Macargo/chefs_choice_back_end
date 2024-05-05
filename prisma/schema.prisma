@@ -17,9 +17,9 @@ model Menu {
 
 model Product {
   id           Int       @id @default(autoincrement())
-  name         String
+  name         String    @unique
   description  String?
-  price        Float
+  price        Int
   image_url    String?  
   menu         Menu?     @relation(fields: [menuId], references: [id], onDelete: SetNull)
   menuId       Int?
@@ -29,6 +29,6 @@ model Product {
 
 model Category {
   id       Int       @id @default(autoincrement())
-  name     String
+  name     String    @unique
   products Product[]
 }
