@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, UsePipes } from '@nestjs/common';
 import { CreateProductDto } from 'src/dtos/create-product-dto';
 import { JoiValidationPipe } from 'src/pipes/joi-validation-pipes';
 import { createProductSchema } from 'src/schemas/create-product-schema';
@@ -22,5 +22,10 @@ export class ProductController {
   @UsePipes(new JoiValidationPipe(createProductSchema))
   async create(@Body() createProductDto: CreateProductDto) {
     return await this.productService.create(createProductDto);
+  }
+
+  @Put(':id')
+  async update(@Param('id') id: string, @Body() UpdateProductDto: CreateProductDto) {
+    return await this.productService.update(id, UpdateProductDto);
   }
 }

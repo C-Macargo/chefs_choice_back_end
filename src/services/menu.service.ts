@@ -38,7 +38,7 @@ export class MenuService {
   }
 
   async delete(id: string): Promise<Menu> {
-    const menu = await this.findOne(id); //
+    const menu = await this.findOne(id);
     return this.prisma.menu.delete({
       where: { id: menu.id },
     });

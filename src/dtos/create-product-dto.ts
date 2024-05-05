@@ -6,7 +6,6 @@ export class CreateProductDto {
   menuId?: number;
   categoryId: number;
 
-  // eslint-disable-next-line max-len
   constructor(name: string, price: number, categoryId: number, description?: string, imageUrl?: string, menuId?: number) {
     this.name = name;
     this.price = price;

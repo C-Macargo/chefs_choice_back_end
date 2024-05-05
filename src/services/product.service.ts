@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Product } from '@prisma/client';
 import { PrismaService } from './prisma.service';
 import { CreateProductDto } from 'src/dtos/create-product-dto';
+import { validateCategoryExists, validateMenuExists } from 'src/utils/validator';
 
 @Injectable()
 export class ProductService {
@@ -24,6 +25,34 @@ export class ProductService {
     return product;
   }
 
+  async update(id: string, updateProductDto: CreateProductDto): Promise<Product> {
+    const productId = parseInt(id, 10);
+    const existingProduct = await this.prisma.product.findUnique({ where: { id: productId } });
+
+    if (!existingProduct) {
+      throw new NotFoundException(`Product with ID ${id} not found`);
+    }
+
+    if (updateProductDto.categoryId) {
+      await validateCategoryExists(this.prisma, updateProductDto.categoryId);
+    }
+
+    if (updateProductDto.menuId) {
+      await validateMenuExists(this.prisma, updateProductDto.menuId);
+    }
+    return await this.prisma.product.update({
+      where: { id: productId },
+      data: {
+        name: updateProductDto.name || existingProduct.name,
+        description: updateProductDto.description || existingProduct.description,
+        price: updateProductDto.price ?? existingProduct.price,
+        image_url: updateProductDto.imageUrl || existingProduct.image_url,
+        menu: updateProductDto.menuId ? { connect: { id: updateProductDto.menuId } } : undefined,
+        category: updateProductDto.categoryId ? { connect: { id: updateProductDto.categoryId } } : undefined,
+      },
+    });
+  }
+
   async create(createProductDto: CreateProductDto): Promise<Product> {
     await validateCategoryExists(this.prisma, createProductDto.categoryId);
 
@@ -41,25 +70,5 @@ export class ProductService {
         category: { connect: { id: createProductDto.categoryId } },
       },
     });
-  }
-}
-
-async function validateCategoryExists(prisma, categoryId: number): Promise<void> {
-  const existingCategory = await prisma.category.findUnique({
-    where: { id: categoryId },
-  });
-
-  if (!existingCategory) {
-    throw new NotFoundException(`Category with ID ${categoryId} not found`);
-  }
-}
-
-async function validateMenuExists(prisma, menuId: number): Promise<void> {
-  const existingMenu = await prisma.menu.findUnique({
-    where: { id: menuId },
-  });
-
-  if (!existingMenu) {
-    throw new NotFoundException(`Menu with ID ${menuId} not found`);
   }
 }
