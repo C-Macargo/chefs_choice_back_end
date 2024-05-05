@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Category } from '@prisma/client';
+import { Category, Prisma } from '@prisma/client';
 import { PrismaService } from './prisma.service';
 
 @Injectable()
@@ -17,9 +17,15 @@ export class CategoryService {
     });
 
     if (!category) {
-      throw new NotFoundException(`Menu with ID ${id} not found`);
+      throw new NotFoundException(`Category with ID ${id} not found`);
     }
 
     return category;
+  }
+
+  async create(data: Prisma.CategoryCreateInput): Promise<Category> {
+    return this.prisma.category.create({
+      data,
+    });
   }
 }
