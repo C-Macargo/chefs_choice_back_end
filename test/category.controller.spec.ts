@@ -97,12 +97,10 @@ describe('CategoryController', () => {
   });
 
   it('should delete a category by id', async () => {
-    const categoryId = parseInt(faker.string.uuid()).toString();
-
-    jest.spyOn(service, 'delete').mockResolvedValue(categoryId);
-
+    const categoryId = parseInt(faker.string.numeric(1)).toString();
+    jest.spyOn(service, 'delete').mockResolvedValue({ id: parseInt(categoryId), name: faker.commerce.department() });
     const result = await controller.delete(categoryId);
-    expect(result).toContain(categoryId);
+    expect(result).toEqual({ id: Number(categoryId), name: expect.any(String) });
     expect(service.delete).toHaveBeenCalledWith(categoryId);
   });
 });
