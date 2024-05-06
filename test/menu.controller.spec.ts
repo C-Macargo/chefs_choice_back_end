@@ -46,4 +46,43 @@ describe('MenuController', () => {
     expect(result).toEqual(menuData);
     expect(service.findOne).toHaveBeenCalledWith(menuId);
   });
+
+  it('should return all menus', async () => {
+    const menus = Array.from({ length: 2 }, (_, index) => ({
+      id: index + 1,
+      name: faker.commerce.department(),
+      description: faker.lorem.sentence(),
+      isDay: true,
+    }));
+    jest.spyOn(service, 'findAll').mockResolvedValue(menus);
+    const result = await controller.findAll();
+    expect(result).toEqual(menus);
+    expect(service.findAll).toHaveBeenCalled();
+  });
+
+  it('should create a new menu', async () => {
+    const menuData = {
+      name: faker.commerce.department(),
+      description: faker.lorem.sentence(),
+      isDay: true,
+      productId: [1, 2],
+    };
+    jest.spyOn(service, 'create').mockResolvedValue(menuData);
+    const result = await controller.create(menuData);
+    expect(result).toEqual(menuData);
+    expect(service.create).toHaveBeenCalledWith(menuData);
+  });
+  it('should update a menu', async () => {
+    const menuId = faker.string.numeric();
+    const menuData = {
+      name: faker.commerce.department(),
+      description: faker.lorem.sentence(),
+      isDay: true,
+      productId: [1, 2],
+    };
+    jest.spyOn(service, 'update').mockResolvedValue(menuData);
+    const result = await controller.update(menuId, menuData);
+    expect(result).toEqual(menuData);
+    expect(service.update).toHaveBeenCalledWith(menuId, menuData);
+  });
 });
