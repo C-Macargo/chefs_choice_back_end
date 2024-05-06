@@ -1,5 +1,5 @@
 export class UpdateCategoryDto {
-  name?: string;
+  name: string;
   productIds?: number[];
 
   constructor(name: string, productIds: number[]) {

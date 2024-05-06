@@ -7,7 +7,11 @@ export class CategoryService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findAll(): Promise<Category[]> {
-    return this.prisma.category.findMany();
+    return this.prisma.category.findMany({
+      include: {
+        products: true,
+      },
+    });
   }
 
   async findOne(id: string): Promise<Category> {

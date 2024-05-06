@@ -3,6 +3,12 @@ import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class PrismaService {
+  $connect() {
+    throw new Error('Method not implemented.');
+  }
+  $disconnect() {
+    throw new Error('Method not implemented.');
+  }
   readonly prismaClient: PrismaClient;
 
   constructor() {

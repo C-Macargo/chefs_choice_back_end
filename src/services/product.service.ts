@@ -47,7 +47,6 @@ export class ProductService {
         description: updateProductDto.description || existingProduct.description,
         price: updateProductDto.price ?? existingProduct.price,
         image_url: updateProductDto.imageUrl || existingProduct.image_url,
-        menu: updateProductDto.menuId ? { connect: { id: updateProductDto.menuId } } : undefined,
         category: updateProductDto.categoryId ? { connect: { id: updateProductDto.categoryId } } : undefined,
       },
     });
@@ -66,7 +65,6 @@ export class ProductService {
         description: createProductDto.description,
         price: createProductDto.price,
         image_url: createProductDto.imageUrl,
-        menu: createProductDto.menuId ? { connect: { id: createProductDto.menuId } } : undefined,
         category: { connect: { id: createProductDto.categoryId } },
       },
     });
