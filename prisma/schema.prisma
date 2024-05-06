@@ -8,23 +8,33 @@ datasource db {
 }
 
 model Menu {
-  id          Int       @id @default(autoincrement())
-  name        String    @unique
-  description String?
-  isDay       Boolean  @unique
-  products    Product[] 
+  id           Int            @id @default(autoincrement())
+  name         String         @unique
+  description  String?
+  isDay        Boolean        @unique
+  products     Product[]      @relation("MenuProducts")
+  MenuProducts MenuProducts[]
 }
 
 model Product {
-  id           Int       @id @default(autoincrement())
-  name         String    @unique
+  id           Int            @id @default(autoincrement())
+  name         String         @unique
   description  String?
   price        Int
-  image_url    String?  
-  menu         Menu?     @relation(fields: [menuId], references: [id], onDelete: SetNull)
-  menuId       Int?
-  category     Category  @relation(fields: [categoryId], references: [id])
+  image_url    String?
+  category     Category       @relation(fields: [categoryId], references: [id])
   categoryId   Int
+  menus        Menu[]         @relation("MenuProducts")
+  MenuProducts MenuProducts[]
+}
+
+model MenuProducts {
+  menuId    Int
+  productId Int
+  menu      Menu    @relation(fields: [menuId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@id([menuId, productId])
 }
 
 model Category {
